@@ -11,20 +11,16 @@ class Point
 		@y = y
 	end
 
+	def betweenY(b, point)
+		point.x == @x && point.y >= @y && point.y <= b.y
+	end
+
+	def betweenX(b, point)
+		point.y == @y && point.x >= @x && point.x <= b.x
+	end
+
 	def to_s
 		"{#{@x},#{@y}} "
-	end
-end
-
-class Circle
-
-	def initialize (center, radius)
-		@center = Point.new(center.x, center.y)
-		@radius = radius
-	end
-
-	def to_s
-		"Circulo con centro en " + @center.to_s + "y radio #{@radius}"
 	end
 end
 		
@@ -42,6 +38,8 @@ class Point3D
 end
 
 class Figure
+
+	PI = 3.1415
 
 	def initialize
 		raise 'Error'
@@ -68,6 +66,10 @@ class Triangle < Figure
 	def area
 		@s = perimeter / 2
 		Math.sqrt(@s*(@s-a.distance(b))*(@s-b.distance(c))*(@s-c.distance(a)))
+	end
+
+	def to_s
+		"Triangle A = " + a.to_s + ", B = " + b.to_s + ", C = " + c.to_s
 	end
 end
 
@@ -98,10 +100,62 @@ class Rectangle < Figure
 	end
 
 	def belongs(point)
-		raise 'Does not belong' if (point.x == a.x) 
+		if (!a.betweenY(b, point) && !a.betweenX(d, point) && !b.betweenX(c, point) && !d.betweenY(c, point)) 
+			puts "Point does not belong to figure's frontier"
+		else puts "Points belongs to the figure's frontier"		
+		end
+	end
+
+	def to_s
+		"Rectangle A = " + a.to_s + ", B = " + b.to_s + ", C = " + c.to_s + ", D = " + d.to_s
 	end
 end
 
+class Circle < Figure
+	attr_reader :center, :radius
+
+	def initialize(center, radius)
+		raise 'Invalid radius' if radius <= 0
+		@center = center
+		@radius = radius
+	end
+
+	def perimeter
+		2*PI*radius 
+	end
+
+	def area
+		PI*(radius**2)
+	end
+
+	def to_s
+		"Circle with center on " + center.to_s + " and radius #{@radius}"
+	end
+end
+
+class Ellipse < Figure
+	attr_reader :a, :b, :center, :xRadius, :yRadius
+
+	def initialize(a, b)
+		raise "Invalid points" if a.x >= b.x || a.y >= b.y
+		@xRadius = b.x - a.x
+		@yRadius = b.y - a.y
+		@center = Point.new(b.x, a.y)
+	end
+
+	def area
+		PI * @xRadius * @yRadius
+	end
+
+	def perimeter
+		h = ((@xRadius - yRadius)**2) / ((@xRadius + @yRadius)**2)
+		PI*(@xRadius+@yRadius)*(1+ ((3*h) / (10 + Math.sqrt(4-(3*h)))))		
+	end
+
+	def to_s
+		"Ellipse with center " + center.to_s + ", A lenght: #{xRadius}, B lenght: #{yRadius}"
+	end
+end
 
 #Programa de prueba
 
@@ -109,8 +163,11 @@ a = Point.new(0, 0)
 b = Point.new(4, 0)
 c = Point.new(4, 3)
 
-rectangle = Rectangle.new(a,c)
-puts rectangle.area
-puts rectangle.perimeter
-puts rectangle.base
-puts rectangle.hight
+cir = Circle.new(a, 3)
+puts cir
+puts cir.area
+puts cir.perimeter
+ell = Ellipse.new(a, c)
+puts ell
+puts ell.area
+puts ell.perimeter
