@@ -1,3 +1,5 @@
+require 'set'
+
 class Item
 	def initialize(description, price, quantity)
 		@description = description
@@ -17,16 +19,29 @@ class Item
 		return false unless other.is_a? Item
 		@description == other.description
 	end
+
+	def <=>(other)
+		return false unless other.is_a? Item
+		total <=> other.total
+	end
+
+	def hash
+		[@description, @quantity, @price].hash
+	end
+
+	def eql?(other)
+		self.==(other)
+	end
 end
 
 class Ticket
 	def initialize(id)
 		@id = id
-		@items = []
+		@items = SortedSet.new
 	end
 
 	def add(item)
-		@items.push(item)
+		@items.add(item)
 	end
 
 	def total
@@ -35,9 +50,9 @@ class Ticket
 
 	def to_s
 		s = "TICKET N°#{@id}\n"
-		s += "################\n"
+		s += "####################\n"
 		@items.each{|item| s += item.to_s}
-		s += "################\n"
+		s += "####################\n"
 		s += "TOTAL $#{total}"
 	end
 end
