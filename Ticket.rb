@@ -1,4 +1,5 @@
 require 'set'
+require_relative 'Discountable'
 
 class Item
 	def initialize(description, price, quantity)
@@ -32,9 +33,15 @@ class Item
 	def eql?(other)
 		self.==(other)
 	end
+
+	def discount(other)
+		@price = @price * (100 - percentage) / 100
+	end
 end
 
 class Ticket
+	include Discountable
+
 	def initialize(id)
 		@id = id
 		@items = SortedSet.new
@@ -48,6 +55,10 @@ class Ticket
 		@items.map{|item| item.total}.reduce(:+)
 	end
 
+	def discount(percentage)
+		@itmes.each{|item| item.discount(percentage)}
+	end
+
 	def to_s
 		s = "TICKET N°#{@id}\n"
 		s += "####################\n"
@@ -56,10 +67,3 @@ class Ticket
 		s += "TOTAL $#{total}"
 	end
 end
-
-uno = Item.new("hi", 3, 4)
-dos = Item.new("bai", 7, 25)
-t = Ticket.new(111111)
-t.add(uno)
-t.add(dos)
-puts t

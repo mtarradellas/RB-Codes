@@ -31,4 +31,18 @@ class Point
 	def eql?(other)
 		self.==(other)
 	end
+
+	def inspect
+		self.to_s
+	end
+
+	def hash
+		[@x, @y].hash
+	end
+
+	def <=>(other)
+		[@x, @y] <=> [other.x, other.y]
+	end
 end
+
+require 'set'

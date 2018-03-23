@@ -24,7 +24,24 @@ class Ellipse < Figure
 		@a == other.a && @b == other.b
 	end
 
+	def eql?(other)
+		self.== other
+	end
+
+	def hash
+		[@a, @b, @c, @d].hash
+	end
+
+	def inspect
+		self.to_s
+	end
+
 	def to_s
 		"Ellipse with center " + center.to_s + ", A lenght: #{xRadius}, B lenght: #{yRadius}"
 	end
+
+	def <=>(other)
+		self.area <=> other.area
+	end
 end
+

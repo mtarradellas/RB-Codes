@@ -38,7 +38,23 @@ class Rectangle < Figure
 		@a == other.a && @c == other.c
 	end
 
+	def eql?(other)
+		self.== other
+	end
+
+	def hash
+		[@a, @b, @c, @d].hash
+	end
+
+	def inspect
+		self.to_s
+	end
+
 	def to_s
 		"Rectangle A = " + a.to_s + ", B = " + b.to_s + ", C = " + c.to_s + ", D = " + d.to_s
+	end
+
+	def <=>(other)
+		self.area <=> other.area
 	end
 end

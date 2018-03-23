@@ -26,4 +26,20 @@ class Triangle < Figure
 		raise 'Invalid Parameter' unless other.is_a?(Triangle)
 		@a == other.a && @b == other.b && @c == other.c
 	end
+
+	def eql?(other)
+		self.== other
+	end
+
+	def hash
+		[@a, @b, @c].hash
+	end
+
+	def inspect
+		self.to_s
+	end
+
+	def <=>(other)
+		self.area <=> other.area
+	end
 end
