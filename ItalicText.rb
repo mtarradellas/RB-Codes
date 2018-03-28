@@ -1,12 +1,12 @@
-class ItalicText < PlainText
+class ItalicText
 	include HTMLText
 	attr_writer :content
 
-	def initialize(content)
-		super(content)
+	def initialize(text)
+		@text = text
 	end
 
 	def source
-		'<i>'+@content+'</i>'
+		'<i>'+@text.to_s+'</i>'
 	end
 end

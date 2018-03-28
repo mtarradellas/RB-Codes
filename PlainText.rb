@@ -13,14 +13,16 @@ class PlainText
 	end
 end
 
+require_relative 'BoldText.rb'
+require_relative 'ItalicText.rb'
 
 text = PlainText.new 'oooolaaaa'
-bold_text = text.bold
-italic_text = text.italic
+bold_text = BoldText.new(text)
+italic_text = ItalicText.new(text)
+bold_italic_text = BoldText.new(italic_text)
 puts text
 puts bold_text
 puts italic_text
-bold_italic_text = text.boldItalic
 puts bold_italic_text
 text.content = 'ITBA'
 puts text

@@ -1,12 +1,12 @@
-class BoldText < PlainText
+class BoldText
 	include HTMLText
 	attr_writer :content
 
-	def initialize(content)
-		super(content)
+	def initialize(text)
+		@text = text
 	end
 
 	def source
-		'<b>'+@content+'</b>'
+		'<b>'+@text.to_s+'</b>'
 	end
 end

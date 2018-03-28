@@ -8,16 +8,4 @@ module HTMLText
 		source
 	end
 
-	def bold
-		'<b>'+source+'</b>'
-	end
-
-	def italic
-		'<i>'+source+'</i>'
-	end
-
-	def boldItalic
-		'<b><i>'+source+'</i></b>'
-	end
-
 end
