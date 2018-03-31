@@ -1,7 +1,21 @@
+require 'date'
 class Commands
+	ADD = 1
+	LIST_ALL = 2
+	LIST_DATE = 3
+	LIST_GROUPS = 4
+	LIST_OVERDUE = 5
+	LIST_A_GROUP = 6
+	LIST_THIS_WEEK = 7
+	COMPLETE = 8
+	ARCHIVE	 = 9
+	attr_reader :date
 
-	def initialize(command)
-		@string = string
+	def initialize
+	end
+
+	def analize(command)
+		@string = command
 	end
 
 	def obtain_command
@@ -14,48 +28,77 @@ class Commands
 			if @string == "list"
 				@command = LIST_ALL
 			elsif @string[4..-1] == " group"
-				@command = LIST_GROUP
+				@command = LIST_GROUPS
 			elsif @string[4..5] == " +"
 				@string = @string[6..-1]
-				@command = LIST_DA_GROUP
+				@command = LIST_A_GROUP
 			elsif @string[4..-1] == " overdue"
 				@command = LIST_OVERDUE
 			elsif @string[4..-1] == " due today"
-				@command = LIST_TODAY
+				@date = Date.today
+				@command = LIST_DATE
 			elsif @string[4..-1] == " due tomorrow"
-				@command = LIST_TOMORROW
+				@date = Date.today.next_day
+				@command = LIST_DATE
 			elsif @string[4..-1] == " due this-week"
+				@date = Date.today
 				@command = LIST_THIS_WEEK
 			end
 
 		elsif @string.start_with? "complete "
 			@string = @string[9..-1]
+			raise InvalidID unless @string.lenght == @string.to_i.to_s.lenght
 			@command = COMPLETE
 
 		elsif @string == "ac"
 			@command = ARCHIVE
+
+		else
+			raise InvalidCommand
 		end
+		@command
 	end
 
 	def obtain_date
-		if idx = @string.index(" due ")
+		idx = @string.index " due "
+		unless idx.nil?
 			@date = @string[idx+5..-1]
 			@string = @string[0...idx]
+			return validate_date
+		end
+		nil
 	end
 
 	def validate_date
-		@date = Date.today if @date == "today"
-		@date = Date.today.prev_day if @date == "yesterday"
-		@date = Date.today.next_day if @date == "tomorrow"
-		raise InvalidDate unless @date.lenght == 10
-		raise InvalidDate unless @date[2] == @date[5] == '\\'
-		@date.delete! "\\"
-		raise InvalidDate unless @date.lenght == 8
-		raise InvalidDate unless @date.to_i.digits.count == 8
+		return @date = Date.today if @date == "today"
+		return @date = Date.today.prev_day if @date == "yesterday"
+		return @date = Date.today.next_day if @date == "tomorrow"
+
+		raise InvalidDate unless @date.length == 10
+		raise InvalidDate if (/\d{2}\/\d{2}\/\d{4}/ =~ @date).nil?
+
 		year = @date[6..9].to_i
 		month = @date[3..4].to_i
 		day = @date[0..1].to_i
+		
 		raise InvalidDate unless Date.valid_date?(year, month, day)
+		
 		@date = Date.new(year, month, day)
 	end
+
+	def obtain_group
+		if @string.start_with? "+"
+			group_end = @string.index(" ")
+			raise InvalidGroup if group_end == 1
+			@string = @string[group_end+1..-1]
+			return group = @string[1...group_end]
+			
+		end
+		nil
+	end
+
+	def obtain_string
+		@string
+	end
+
 end

@@ -9,4 +9,7 @@ class Group
 		@tasks << task
 	end
 
+	def archive
+		@tasks.each{|i| @tasks.delete(i) if i.completed == 'X'}	
+	end
 end

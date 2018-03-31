@@ -1,3 +1,13 @@
-require 'date'
+class Test
+	def initialize(num, oi)
+		@num = num
+		@oi = oi
+	end
 
-puts Date.new(20d8,3,30)
+	def to_s
+		"#{@num} #{@oi}"
+	end
+end
+
+num = Test.new(3, "oi")
+puts num

@@ -1,32 +1,31 @@
+require_relative 'TaskManager.rb'
+require_relative 'Commands.rb'
+task_manager = TaskManager.new
+command_manager = Commands.new
 while (command = gets.chomp)!= "exit"
-	command_manager = Commands.new(command)
-	command_manager.obtain_comand
-	command
-
-----------------------------------------------
-	if comando.start_with? "add "
-		comando = comando[4..-1]
-
-		if comando.start_with? "+"
-			group_end = group.index(" ")
-			raise Invalid Group if group_end == 1
-			group = comando[1..group_end]
-			comando = comando[group_end..-1]
-		end
-		
-
-		if due = comando.index(" due ")
-			puts comando[4..due]
-			puts comando[due+5..-1]
-		end
-	end
-	if comando.start_with?("list")
-		if comando=="list"
-			list all
-		elsif comando[5..-1]=="group"
-			list group
-		elsif comando[5]=="+"
-			list comando[6..-1]
+	command_manager.analize(command)
+	action = command_manager.obtain_command
+	case action
+	when Commands::ADD
+		date = command_manager.obtain_date
+		group = command_manager.obtain_group
+		task = command_manager.obtain_string
+		task_manager.add(task, date, group)
+	when Commands::COMPLETE
+		id = command_manager.obtain_string.to_i
+		task_manager.complete(id)
+	when Commands::LIST_ALL
+		task_manager.list_all
+	# when LIST_GROUPS
+	# 	task_manager.list_groups
+	# when LIST_A_GROUP
+	# 	group = command_manager.obtain_string
+	# 	task_manager.list_group(group)
+	# when LIST_DATE
+	# 	date = command_manager.date
+	# 	task_manager.list_date(date)
+	when Commands::ARCHIVE
+		task_manager.archive
 	end
 end
 
