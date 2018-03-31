@@ -1,5 +1,7 @@
 require 'date'
 class Commands
+	attr_reader :date
+
 	ADD = 1
 	LIST_ALL = 2
 	LIST_DATE = 3
@@ -9,7 +11,6 @@ class Commands
 	LIST_THIS_WEEK = 7
 	COMPLETE = 8
 	ARCHIVE	 = 9
-	attr_reader :date
 
 	def initialize
 	end
@@ -47,7 +48,7 @@ class Commands
 
 		elsif @string.start_with? "complete "
 			@string = @string[9..-1]
-			raise InvalidID unless @string.lenght == @string.to_i.to_s.lenght
+			raise InvalidID unless @string.length == @string.to_i.to_s.length
 			@command = COMPLETE
 
 		elsif @string == "ac"
@@ -90,9 +91,9 @@ class Commands
 		if @string.start_with? "+"
 			group_end = @string.index(" ")
 			raise InvalidGroup if group_end == 1
+			group = @string[0...group_end]
 			@string = @string[group_end+1..-1]
-			return group = @string[1...group_end]
-			
+			return group
 		end
 		nil
 	end

@@ -1,35 +1,5 @@
 require_relative 'Sets.rb'
-class KeOnda
-	attr_reader :due_date, :id, :group_name, 
-
-	def initialize(task_name, id, due_date, group_name)
-		@task_name = task_name
-		@id = id
-		@due_date = due_date
-		@group_name = group_name
-		@completed = nil
-	end
-
-	def complete
-		@completed = 'X'
-	end
-
-	def <=>(other)
-		if @due_date.nil?
-			return @id <=> other.id if other.due_date.nil?
-			return -1
-		end 
-		return @due_date <=> other.due_date unless other.due_date.nil?
-		return 1 
-	end
-
-	# def to_s
-	# 	"#{@id}\t[#{@completed}]\t#{@due_date.day}\/#{@due_date.month}\/#{@due_date.year}\t#{@}"
-	 	
-	# end
-end
-
-
+require_relative 'Task.rb'
 class TaskManager
 
 	def initialize
@@ -40,13 +10,12 @@ class TaskManager
 
 	def add(task_name, due_date, group_name)
 		@id_counter += 1
-		task = Tasksss.new(task_name, @id_counter, due_date, group_name)
-		@tasks_hash[@id_counter] = task
+		@tasks_hash[@id_counter] = Task.new(task_name, @id_counter, due_date, group_name)
 		@sets.add(@tasks_hash[@id_counter]) 
 	end
 
-	def list_all
-		nil
+	def obtain_all_list
+		@sets.obtain_all_list
 	end
 
 	def complete(id)
@@ -59,5 +28,3 @@ class TaskManager
 		@sets.archive
 	end
 end
-
-task_test = KeOnda.new("hola", "porque", "no", "anda")

@@ -1,9 +1,9 @@
-class Ola
-	attr_reader :due_date, :id, :group_name, 
+class Task
+	attr_reader :due_date, :id, :group_name, :completed, :task_name
 	def initialize(task_name, id, due_date, group_name)
 		@task_name = task_name
 		@due_date = due_date
-		@group_name = group_name
+		@group_name =group_name
 		@completed = nil
 		@id = id
 	end
@@ -26,6 +26,3 @@ class Ola
 	 	
 	# end
 end
-
-task = Ola.new ("s", "s", "s", "a")
-p task.inspect

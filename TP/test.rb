@@ -1,13 +1,9 @@
-class Test
-	def initialize(num, oi)
-		@num = num
-		@oi = oi
-	end
-
-	def to_s
-		"#{@num} #{@oi}"
+class N
+	attr_reader :n
+	def initialize(n)
+		@n = n		
 	end
 end
 
-num = Test.new(3, "oi")
-puts num
+num = N.new(3)
+puts "num: #{num.n}"

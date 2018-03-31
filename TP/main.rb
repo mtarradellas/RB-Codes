@@ -15,7 +15,8 @@ while (command = gets.chomp)!= "exit"
 		id = command_manager.obtain_string.to_i
 		task_manager.complete(id)
 	when Commands::LIST_ALL
-		task_manager.list_all
+		all_list = task_manager.obtain_all_list
+		all_list.each{|i| print "#{i.id}  [#{i.completed}]  #{i.due_date}  #{i.group_name}  #{i.task_name}"}
 	# when LIST_GROUPS
 	# 	task_manager.list_groups
 	# when LIST_A_GROUP
