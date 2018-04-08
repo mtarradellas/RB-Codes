@@ -33,6 +33,13 @@ class Rectangle < Figure
 		end
 	end
 
+	def move_up(delta)
+		@a.move_up delta
+		@b.move_up delta
+		@c.move_up delta
+		@d.move_up delta
+	end
+
 	def ==(other)
 		raise 'Invalid Parameter' unless other.is_a?(Rectangle)
 		@a == other.a && @c == other.c

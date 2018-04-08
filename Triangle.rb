@@ -18,6 +18,12 @@ class Triangle < Figure
 		Math.sqrt(@s*(@s-a.distance(b))*(@s-b.distance(c))*(@s-c.distance(a)))
 	end
 
+	def move_up(delta)
+		@a.move_up delta
+		@b.move_up delta
+		@c.move_up delta
+	end
+
 	def to_s
 		"Triangle A = " + a.to_s + ", B = " + b.to_s + ", C = " + c.to_s
 	end

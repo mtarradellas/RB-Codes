@@ -17,6 +17,10 @@ class Circle < Figure
 		PI*(radius**2)
 	end
 
+	def move_up(delta)
+		@center.move_up delta
+	end
+
 	def ==(other)
 		raise 'Invalid Parameter' unless other.is_a?(Circle)
 		@center == other.center && @radius == other.radius

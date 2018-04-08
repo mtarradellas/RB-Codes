@@ -19,6 +19,10 @@ class Point
 		point.y == @y && point.x >= @x && point.x <= b.x
 	end
 
+	def move_up(delta)
+		@y += delta
+	end
+
 	def ==(other)
 		raise 'Invalid Parameter' unless other.is_a?(Point)
 		@x == other.x && @y == other.y

@@ -19,6 +19,10 @@ class Ellipse < Figure
 		PI*(@xRadius+@yRadius)*(1+ ((3*h) / (10 + Math.sqrt(4-(3*h)))))		
 	end
 
+	def move_up(delta)
+		@center.move_up delta
+	end
+
 	def ==(other)
 		raise 'Invalid Parameter' unless other.is_a?(Ellipse)
 		@a == other.a && @b == other.b
